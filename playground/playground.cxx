@@ -9,7 +9,7 @@ rem::code playground::run()
     book::write << "This is a test message." << book::eol;
     book::write << "Logging system is operational." << book::eol;
     prog.stop_logbook_thread();
-    system("cat logbook_playground.log");
+    system("cat logbook_playground.book");
     return rem::Ok;
 }
 
