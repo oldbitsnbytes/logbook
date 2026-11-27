@@ -68,7 +68,7 @@ rem::code book::close() {
         //std::cout << "book::close : [" << rem::Rejected << "]." << std::endl;
         return rem::Rejected;
     }
-    book::book::out_file->close();
+    book::out_file->close();
     //std::cout << "book::close : [" << rem::Accepted << "]." << std::endl;
 
     return rem::Accepted;

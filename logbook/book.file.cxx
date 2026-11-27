@@ -55,6 +55,7 @@ rem::code book::file::close() {
 }
 
 rem::code book::file::push(std::string str) {
+    std::lock_guard<std::recursive_mutex> lock(mtx);
     if (!is_open) {
         //std::cout << "book::file::push : [" << rem::Rejected << "] - !is_open." << std::endl;
         return rem::Rejected;
@@ -65,6 +66,7 @@ rem::code book::file::push(std::string str) {
 }
 
 rem::code book::file::flush() {
+    std::lock_guard<std::recursive_mutex> lock(mtx);
     if (!is_open) {
         //std::cout << "book::file::flush : [" << rem::Rejected << "] - !is_open." << std::endl;
         return rem::Rejected;
@@ -76,7 +78,7 @@ rem::code book::file::flush() {
     //std::cout << "book::file::flush : [ flushing " << cached_lines.size() << " lines ]." << std::endl;
     for (const auto& line : cached_lines)
         (*file_ptr) << line << '\n';
-
+ 
     cached_lines.clear();
     //std::cout << "book::file::flush : [" << rem::Complete << "]." << std::endl;
     return rem::Complete;
@@ -89,7 +91,6 @@ void book::file::run(const std::stop_token &stoken) {
         //std::cout << "book::file::run : [" << rem::Locked << "]." << std::endl;
         if (cached_lines.size() > seuil) {
             flush();
-            cached_lines.clear();
         }
     }
     //std::cout << "book::file::run : [" << rem::Complete << "]. Flushing remaining lines in buffer..." << std::endl;

@@ -42,25 +42,12 @@ bool operator !(rem::code C)
 
 bool operator+(rem::code C)
 {
-    return (C == rem::code::Accepted)||
-       (C == rem::code::Ok)      ||
-       (C == rem::code::Success) ||
-       (C == rem::code::Done)    ||
-       (C == rem::code::Ready)   ||
-       (C == rem::code::Finish)  ||
-       (C == rem::code::Complete)||
-       (C == rem::code::Found)   ||
-       (C == rem::code::Applied) ||
-       (C == rem::code::NotApplicable) ||
-       (C == rem::code::Exist)   ||
-       (C == rem::code::Applied) ||
-       (C == rem::code::Valid);
+    return !!C;
 }
 
-bool operator*(const rem::code c)
-{
-    return !!c;
-}
+bool operator-(rem::code r) { return !r; }
+
+bool operator*(const rem::code c) { return !!c; }
 
 
 namespace {
@@ -559,7 +546,11 @@ static std::string_view clean_pretty_function(std::string_view pretty) {
     return function_with_args;
 }
 
-
+/*!
+ * @brief Generates in-place std::source_location expression.
+ * @param loc
+ * @return std::string containing formatted text about the function signature(stripped long format), line number and column number.
+ */
 std::string this_location(std::source_location &&loc) {
     tux::string text;
     tux::string file_location = loc.file_name();
@@ -579,7 +570,7 @@ std::string this_location(std::source_location &&loc) {
     text << color::White << "Line #" << LineColors << std::format("{:<4d}",loc.line());
     auto [FunctionIcon, FunctionColors] = function_attributes(rem::Fn::F);
     text <<  " " << FunctionColors << FunctionIcon << color::White << ':' << FunctionColors << clean_pretty_function(loc.function_name()) << color::R;
-    loc = {}; // Do not let trailing garbage.
+    loc = {}; // Do not let trailing garbage on the site.
     return *text;
 }
 

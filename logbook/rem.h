@@ -205,7 +205,7 @@ enum code : Integers::U16
 enum Fn : Integers::U32
 {
     F                , ///< Function Signature From within the call to rem::to_string(rem::Fn::F)
-    Eol              , ///< End Of Line Code, Input Format
+    Eol              , ///< End Of Line Code, Input Format; Redundant. Rarely used. Subject to be removed.
     File             ,
     Line             ,
     Stamp            , ///< Fully Detailed Timestamp
@@ -218,7 +218,7 @@ enum Fn : Integers::U32
     Day              ,
     MonthNum         , ///< Maintenant Explicite
     Year             ,
-    Loc
+    Loc                //< Genereates inplace std::source_location. But in fact, it is not usable as of now. Subject to be removed._
 };
 
 

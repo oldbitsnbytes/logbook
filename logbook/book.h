@@ -126,7 +126,7 @@ public:
 
         size_t     seuil{4096};
         bool       stop{false};
-        std::mutex mtx;
+        std::recursive_mutex mtx;
         std::jthread worker;
         void       run(const std::stop_token &stoken);
         void       stop_worker();
