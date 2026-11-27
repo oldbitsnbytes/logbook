@@ -87,7 +87,7 @@ rem::code book::file::flush() {
 void book::file::run(const std::stop_token &stoken) {
     while (!stoken.stop_requested()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500)); // sleep for .5 seconds.
-        std::unique_lock<std::mutex> lock(mtx);
+        std::unique_lock<std::recursive_mutex> lock(mtx);
         //std::cout << "book::file::run : [" << rem::Locked << "]." << std::endl;
         if (cached_lines.size() > seuil) {
             flush();
